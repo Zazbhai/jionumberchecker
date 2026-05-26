@@ -1,0 +1,11 @@
+{
+  "name": "jio-automation-suite",
+  "version": "1.0.0",
+  "description": "Root runner for Jio Automation Suite",
+  "scripts": {
+    "start": "python start.py"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

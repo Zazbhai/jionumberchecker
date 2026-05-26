@@ -1,0 +1,11 @@
+{
+    "api_key": "o5H9jc0oH-n64k-UlyjXBtGStHLI52he",
+    "operator": "10",
+    "country": "91",
+    "service": "jio",
+    "base_url": "https://zotp.in/stubs/handler_api.php",
+    "auto_cancel_time": "120",
+    "polling_delay": "3",
+    "allow_cancel_time": "120",
+    "price": "14"
+}
