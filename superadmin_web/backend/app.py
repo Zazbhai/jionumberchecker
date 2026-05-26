@@ -7,8 +7,12 @@ from datetime import timedelta
 
 FRONTEND_DIST = os.path.abspath(os.path.join(os.path.dirname(__file__), "../dist"))
 
+BACKEND_DIR = os.path.abspath(os.path.dirname(__file__))
+
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    f"sqlite:///{os.path.join(BACKEND_DIR, 'database.db')}"
+)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = "super-secret-key-change-this"
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=30)
