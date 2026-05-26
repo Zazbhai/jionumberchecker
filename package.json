@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Root runner for Jio Automation Suite",
   "scripts": {
-    "start": "python start.py"
+    "start": "python3 start.py"
   },
   "keywords": [],
   "author": "",
