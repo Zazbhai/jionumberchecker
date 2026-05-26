@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, send_from_directory
 from flask_cors import CORS
 from models import db, User, SIMOrder, OTPMessage
 import os
 import sms_helper
 from datetime import timedelta
+
+FRONTEND_DIST = os.path.abspath(os.path.join(os.path.dirname(__file__), "../dist"))
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
@@ -459,6 +461,16 @@ def save_sms_settings():
         return jsonify({"status": "saved", "settings": sms_helper.load_settings()})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# Serve React frontend (must be last — catch-all for non-API routes)
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve_frontend(path):
+    file_path = os.path.join(FRONTEND_DIST, path)
+    if path and os.path.exists(file_path):
+        return send_from_directory(FRONTEND_DIST, path)
+    return send_from_directory(FRONTEND_DIST, "index.html")
 
 
 if __name__ == "__main__":

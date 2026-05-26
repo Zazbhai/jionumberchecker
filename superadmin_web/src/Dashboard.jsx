@@ -101,7 +101,7 @@ export default function Dashboard() {
 
   const fetchBalance = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/sms/balance', { credentials: 'include' });
+      const res = await fetch('/api/sms/balance', { credentials: 'include' });
       if (res.ok) {
         const data = await res.json();
         if (data.balance !== null && data.balance !== undefined) {
@@ -115,7 +115,7 @@ export default function Dashboard() {
 
   const fetchPrice = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/sms/price', { credentials: 'include' });
+      const res = await fetch('/api/sms/price', { credentials: 'include' });
       if (res.ok) {
         const data = await res.json();
         if (data.price) {
@@ -129,7 +129,7 @@ export default function Dashboard() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/sms/settings', { credentials: 'include' });
+      const res = await fetch('/api/sms/settings', { credentials: 'include' });
       if (res.ok) {
         const data = await res.json();
         setSettingsForm(data);
@@ -185,7 +185,7 @@ export default function Dashboard() {
 
   const saveSettingsToBackend = async (updatedSettings) => {
     try {
-      await fetch('http://localhost:5001/api/sms/settings', {
+      await fetch('/api/sms/settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedSettings),
@@ -198,7 +198,7 @@ export default function Dashboard() {
 
   const fetchMyApiKey = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/auth/api-key', { credentials: 'include' });
+      const res = await fetch('/api/auth/api-key', { credentials: 'include' });
       if (res.ok) {
         const data = await res.json();
         setMyApiKey(data.api_key || '');
@@ -213,7 +213,7 @@ export default function Dashboard() {
     setMyApiKeySuccess(false);
     setMyApiKeyError('');
     try {
-      const res = await fetch('http://localhost:5001/api/auth/api-key', {
+      const res = await fetch('/api/auth/api-key', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ api_key: myApiKey }),
@@ -239,7 +239,7 @@ export default function Dashboard() {
     setSavingSettings(true);
     setSettingsSuccess(false);
     try {
-      const res = await fetch('http://localhost:5001/api/sms/settings', {
+      const res = await fetch('/api/sms/settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(settingsForm),
@@ -277,7 +277,7 @@ export default function Dashboard() {
 
   const fetchActiveOrders = async (limit = 180) => {
     try {
-      const res = await fetch('http://localhost:5001/api/sms/orders', { credentials: 'include' });
+      const res = await fetch('/api/sms/orders', { credentials: 'include' });
       if (res.ok) {
         const orders = await res.json();
         const activeOrders = [];
@@ -306,7 +306,7 @@ export default function Dashboard() {
               }
             } else if (order.status === 'active') {
               // Cancel it on backend
-              fetch(`http://localhost:5001/api/sms/cancel/${order.request_id}`, {
+              fetch(`/api/sms/cancel/${order.request_id}`, {
                 method: 'POST',
                 credentials: 'include'
               });
@@ -327,7 +327,7 @@ export default function Dashboard() {
   const fetchAllOrders = async () => {
     setLoadingOrders(true);
     try {
-      const res = await fetch('http://localhost:5001/api/sms/orders', { credentials: 'include' });
+      const res = await fetch('/api/sms/orders', { credentials: 'include' });
       if (res.ok) {
         setAllOrders(await res.json());
       }
@@ -353,7 +353,7 @@ export default function Dashboard() {
     const init = async () => {
       let currentLimit = 180;
       try {
-        const settingsRes = await fetch('http://localhost:5001/api/sms/settings', { credentials: 'include' });
+        const settingsRes = await fetch('/api/sms/settings', { credentials: 'include' });
         if (settingsRes.ok) {
           const data = await settingsRes.json();
           setSettingsForm(data);
@@ -404,7 +404,7 @@ export default function Dashboard() {
             stopPolling(sim.request_id);
             addLog(`[SIM +91${sim.number}] Session auto-cancelled (Auto Cancel Time reached).`, 'info');
             // Auto cancel it on the backend
-            fetch(`http://localhost:5001/api/sms/cancel/${sim.request_id}`, {
+            fetch(`/api/sms/cancel/${sim.request_id}`, {
               method: 'POST',
               credentials: 'include'
             }).then(() => fetchBalance());
@@ -427,7 +427,7 @@ export default function Dashboard() {
 
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`http://localhost:5001/api/sms/otp-status/${requestId}`, {
+        const res = await fetch(`/api/sms/otp-status/${requestId}`, {
           credentials: 'include'
         });
         if (!res.ok) return;
@@ -511,7 +511,7 @@ export default function Dashboard() {
     }
     addLog(`[SIM +91${number}] Triggering next OTP cycle and resuming polling...`, 'info');
     try {
-      const res = await fetch(`http://localhost:5001/api/sms/next-otp/${requestId}`, {
+      const res = await fetch(`/api/sms/next-otp/${requestId}`, {
         method: 'POST',
         credentials: 'include'
       });
@@ -562,7 +562,7 @@ export default function Dashboard() {
       
       addLog(`${attemptStr} Fetching number...`, 'info');
       try {
-        const res = await fetch('http://localhost:5001/api/sms/request-number', {
+        const res = await fetch('/api/sms/request-number', {
           method: 'POST',
           credentials: 'include'
         });
@@ -622,7 +622,7 @@ export default function Dashboard() {
     }
     addLog(`Cancelling number +91${number}...`, 'info');
     try {
-      const res = await fetch(`http://localhost:5001/api/sms/cancel/${requestId}`, {
+      const res = await fetch(`/api/sms/cancel/${requestId}`, {
         method: 'POST',
         credentials: 'include'
       });
@@ -646,7 +646,7 @@ export default function Dashboard() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/users', { credentials: 'include' });
+      const res = await fetch('/api/users', { credentials: 'include' });
       if (res.ok) {
         setUsers(await res.json());
       }
@@ -656,7 +656,7 @@ export default function Dashboard() {
   };
 
   const handleLogout = async () => {
-    await fetch('http://localhost:5001/api/auth/logout', { method: 'POST', credentials: 'include' });
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
     setUser(null);
     navigate('/login');
   };
@@ -666,8 +666,8 @@ export default function Dashboard() {
     setError('');
     
     const url = isEditing 
-      ? `http://localhost:5001/api/users/${isEditing}`
-      : `http://localhost:5001/api/users`;
+      ? `/api/users/${isEditing}`
+      : `/api/users`;
       
     const method = isEditing ? 'PUT' : 'POST';
 
@@ -695,7 +695,7 @@ export default function Dashboard() {
     if (!confirm('Are you sure you want to delete this user?')) return;
     
     try {
-      const res = await fetch(`http://localhost:5001/api/users/${id}`, {
+      const res = await fetch(`/api/users/${id}`, {
         method: 'DELETE',
         credentials: 'include'
       });

@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5001/api/auth/me', {credentials: 'include'})
+    fetch('/api/auth/me', {credentials: 'include'})
       .then(r => r.json())
       .then(d => {
         if (d.user) setUser(d.user);
