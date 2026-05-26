@@ -6,6 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
+    host: '0.0.0.0',
+    allowedHosts: ['jio.vishotp.shop'],
     proxy: {
       '/api': {
         target: 'http://localhost:5001',
